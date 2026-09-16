@@ -361,8 +361,8 @@
 
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 border border-slate-700 text-white text-sm px-4 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
-        <div class="bg-emerald-500/20 text-emerald-400 p-1.5 rounded-lg border border-emerald-500/30">
-            <i class="fa-solid fa-circle-check text-base"></i>
+        <div id="toastIconContainer" class="bg-emerald-500/20 text-emerald-400 p-1.5 rounded-lg border border-emerald-500/30">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-base"></i>
         </div>
         <span id="toastMsg" class="font-medium text-xs sm:text-sm text-slate-200">Notifikasi</span>
     </div>
@@ -373,12 +373,13 @@
         let cart = [];
         let currentCategory = "Semua";
 
-        // Product Catalog Data
+        // Product Catalog Data - Tambahkan field stock di setiap item (Ubah angka stock di bawah sesuai keinginan Anda)
         const productsData = [
             {
                 id: "1",
                 title: "Capcut Pro 1 Bulan",
                 price: 25000,
+                stock: 15, 
                 category: "Software",
                 image: "https://cdn.phototourl.com/free/2026-09-12-bdba3c82-b407-42ae-b585-8ec690856a1f.jpg",
                 description: "Akses penuh fitur Capcut Pro. Pembelian scan QRIS lalu konfirmasi ke WhatsApp.",
@@ -387,6 +388,7 @@
                 id: "2",
                 title: "Canva Pro 1 Bulan",
                 price: 8000,
+                stock: 20, 
                 category: "Software",
                 image: "https://cdn.phototourl.com/free/2026-09-12-bcaa194b-5441-4e86-a359-089cb8b2054f.jpg",
                 description: "Desain tanpa batas dengan elemen Canva Pro. Garansi aktif full 1 bulan.",
@@ -395,6 +397,7 @@
                 id: "3",
                 title: "Alight Motion 1 TAHUN",
                 price: 5000,
+                stock: 0, 
                 category: "Software",
                 image: "https://cdn.phototourl.com/free/2026-09-12-e893dc8b-2884-4187-8c91-30b86bb38593.jpg",
                 description: "Preset & efek tanpa watermark Alight Motion Pro durasi 1 tahun full.",
@@ -403,6 +406,7 @@
                 id: "4",
                 title: "Apple Music Pro 1 Bulan",
                 price: 10000,
+                stock: 8,
                 category: "Music",
                 image: "https://cdn.phototourl.com/free/2026-09-12-b2897cfa-dd36-48d4-b7f2-7574819366da.jpg",
                 description: "Streaming musik lossless audio kualits super jernih tanpa iklan.",
@@ -411,6 +415,7 @@
                 id: "5",
                 title: "Picsart Pro 1 Bulan",
                 price: 7000,
+                stock: 12,
                 category: "Software",
                 image: "https://user32007.na.imgto.link/public/20260912/da3297f3-3824-4bf5-a020-8ae98d71d117.avif",
                 description: "Unlock seluruh filter premium dan alat edit gambar tingkat lanjut.",
@@ -419,6 +424,7 @@
                 id: "6",
                 title: "YouTube Premium 1 Bulan",
                 price: 22000,
+                stock: 25,
                 category: "Streaming",
                 image: "https://user32007.na.imgto.link/public/20260912/3e7134fd-f2f9-4caf-84a4-c2e05ecaa29f.avif",
                 description: "Nonton video bebas iklan, bisa putar latar belakang & akses YouTube Music.",
@@ -427,6 +433,7 @@
                 id: "7",
                 title: "Viu Premium 1 Tahun",
                 price: 10000,
+                stock: 100, 
                 category: "Streaming",
                 image: "https://user32007.na.imgto.link/public/20260912/c89a323d-8846-478a-a173-c7709ad69820.avif",
                 description: "Nonton drama Korea & Asia subtitle Indonesia full HD 1 tahun.",
@@ -435,6 +442,7 @@
                 id: "8",
                 title: "WeTV Premium 1 Bulan",
                 price: 11000,
+                stock: 10,
                 category: "Streaming",
                 image: "https://user32007.na.imgto.link/public/20260912/8f686d8f-c296-411e-b8ac-ffe693026b51.avif",
                 description: "Akses VIP drama China & serial eksklusif WeTV kualitas HD tanpa iklan.",
@@ -443,6 +451,7 @@
                 id: "9",
                 title: "Spotify Premium 1 Bulan",
                 price: 15000,
+                stock: 30,
                 category: "Music",
                 image: "https://user32007.na.imgto.link/public/20260912/15d79e37-775f-4a06-8ca7-13a9211d2c64.avif",
                 description: "Dengarkan lagu favorit offline tanpa gangguan iklan di akun pribadi.",
@@ -450,7 +459,8 @@
             {
                 id: "10",
                 title: "Netflix Premium 1 Bulan",
-                price: 30000,
+                price: 18000,
+                stock: 5,
                 category: "Streaming",
                 image: "https://user32007.na.imgto.link/public/20260912/02fe25c6-f22a-4393-bd69-d10235cc2ef2.avif",
                 description: "Streaming film & series kualitas Ultra HD 4K garansi penuh 1 bulan.",
@@ -459,6 +469,7 @@
                 id: "11",
                 title: "Prime Video 1 Bulan",
                 price: 12000,
+                stock: 14,
                 category: "Streaming",
                 image: "https://user32007.na.imgto.link/public/20260912/269d8134-d35a-467b-89f0-b8f7a33247c1.avif",
                 description: "Nikmati film Hollywood & Amazon Original eksklusif durasi 1 bulan.",
@@ -467,6 +478,7 @@
                 id: "12",
                 title: "iQIYI Premium 1 Bulan",
                 price: 8000,
+                stock: 7,
                 category: "Streaming",
                 image: "https://cdn.phototourl.com/free/2026-09-13-1be220d3-bbc7-43b3-9d56-bd4d5ce0a58e.png",
                 description: "Akses VIP tayangan anime & drakor populer iQIYI durasi 1 bulan.",
@@ -475,6 +487,7 @@
                 id: "13",
                 title: "Bstation Premium 1 Bulan",
                 price: 9000,
+                stock: 18,
                 category: "Streaming",
                 image: "https://cdn.phototourl.com/free/2026-09-13-57adee5f-9b2d-4ab4-b248-41ebeac9243b.jpg",
                 description: "Streaming anime resolution 1080P/4K resmi tanpa iklan di Bilibili.",
@@ -483,6 +496,7 @@
                 id: "14",
                 title: "Vidio Platinum 1 Bulan",
                 price: 25000,
+                stock: 0, 
                 category: "Streaming",
                 image: "https://cdn.phototourl.com/free/2026-09-13-3c42c9f9-5a09-4a8d-b23d-9b30da60483a.png",
                 description: "Nonton tayangan olahraga, sinetron, & Vidio Original Series 30 hari.",
@@ -491,6 +505,7 @@
                 id: "15",
                 title: "VPN Express 3D Private",
                 price: 6000,
+                stock: 9,
                 category: "Vpn",
                 image: "https://cdn.phototourl.com/free/2026-09-13-5a027a82-6738-47e6-9893-3e0dcacd685f.png",
                 description: "Koneksi VPN super cepat & privat aman untuk browsing anonym.",
@@ -499,6 +514,7 @@
                 id: "16",
                 title: "VPN HMA Private 1 Bulan",
                 price: 12000,
+                stock: 11,
                 category: "Vpn",
                 image: "https://cdn.phototourl.com/free/2026-09-13-ae1d215c-2cf5-4014-8199-25279b8fa7b3.png",
                 description: "HideMyAss VPN server global terbaik untuk proteksi privasi internet.",
@@ -507,19 +523,11 @@
                 id: "17",
                 title: "Youku Prem 1 Bulan",
                 price: 7000,
+                stock: 4,
                 category: "Streaming",
                 image: "https://user32205.na.imgto.link/public/20260913/30058.avif",
                 description: "Layanan nonton serial drama China favorit VIP Youku 1 Bulan.",
-            },
-            {
-                id: "18",
-                title: "Chat GPT Plus",
-                price: 35000,
-                category: "AI",
-                image: "https://cdn.phototourl.com/free/2026-09-15-d7d1c571-3c02-4bc7-a379-580c18f6ee05.jpg",
-                description: "Layanan Ai Chat GPT plus Tanpa limit.",
             }
-                
         ];
 
         function renderCategories() {
@@ -558,35 +566,57 @@
             }
 
             emptyState.classList.add('hidden');
-            grid.innerHTML = filtered.map(p => `
-                <div class="bg-slate-900/80 rounded-2xl border border-slate-800 hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
-                    <div>
-                        <!-- Image Container -->
-                        <div class="h-48 overflow-hidden relative bg-slate-950">
-                            <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100" onerror="this.src='https://placehold.co/600x400/0f172a/94a3b8?text=CezzyStore'">
-                            <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md border border-slate-700/50 text-brand-300 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">${p.category}</span>
-                        </div>
-                        
-                        <!-- Details -->
-                        <div class="p-5">
-                            <h3 class="font-bold text-white text-base mb-1.5 line-clamp-1 group-hover:text-brand-300 transition-colors">${p.title}</h3>
-                            <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${p.description}</p>
-                        </div>
-                    </div>
+            grid.innerHTML = filtered.map(p => {
+                const isOutOfStock = !p.stock || p.stock <= 0;
+                
+                // Badge Stok
+                const stockBadge = isOutOfStock 
+                    ? `<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20"><i class="fa-solid fa-circle-xmark mr-1"></i> Stok Habis</span>`
+                    : `<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><i class="fa-solid fa-boxes-stacked mr-1"></i> Stok: ${p.stock}</span>`;
 
-                    <!-- Card Footer -->
-                    <div class="px-5 pb-5 pt-3 flex items-center justify-between border-t border-slate-800/60 mt-auto">
-                        <div>
-                            <span class="text-[10px] font-medium text-slate-500 block uppercase tracking-wider">Harga</span>
-                            <span class="text-base font-extrabold text-white">Rp ${Number(p.price).toLocaleString('id-ID')}</span>
-                        </div>
-                        <button onclick="addToCart('${p.id}')" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-md shadow-brand-600/20 transition-all flex items-center space-x-1.5 active:scale-95">
+                // Button Beli / Habis
+                const buyButton = isOutOfStock
+                    ? `<button disabled class="bg-slate-800 text-slate-500 border border-slate-700/60 text-xs font-semibold px-4 py-2.5 rounded-xl cursor-not-allowed flex items-center space-x-1.5 opacity-75 shadow-inner">
+                            <i class="fa-solid fa-ban"></i>
+                            <span>Habis</span>
+                       </button>`
+                    : `<button onclick="addToCart('${p.id}')" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-md shadow-brand-600/20 transition-all flex items-center space-x-1.5 active:scale-95">
                             <i class="fa-solid fa-cart-plus"></i>
                             <span>Beli</span>
-                        </button>
+                       </button>`;
+
+                return `
+                    <div class="bg-slate-900/80 rounded-2xl border border-slate-800 hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                        <div>
+                            <!-- Image Container -->
+                            <div class="h-48 overflow-hidden relative bg-slate-950">
+                                <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${isOutOfStock ? 'grayscale opacity-60' : 'opacity-90 group-hover:opacity-100'}" onerror="this.src='https://placehold.co/600x400/0f172a/94a3b8?text=CezzyStore'">
+                                <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md border border-slate-700/50 text-brand-300 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">${p.category}</span>
+                            </div>
+                            
+                            <!-- Details -->
+                            <div class="p-5">
+                                <div class="flex items-center justify-between gap-2 mb-1.5">
+                                    <h3 class="font-bold text-white text-base line-clamp-1 group-hover:text-brand-300 transition-colors">${p.title}</h3>
+                                </div>
+                                <div class="mb-2">
+                                    ${stockBadge}
+                                </div>
+                                <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${p.description}</p>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer -->
+                        <div class="px-5 pb-5 pt-3 flex items-center justify-between border-t border-slate-800/60 mt-auto">
+                            <div>
+                                <span class="text-[10px] font-medium text-slate-500 block uppercase tracking-wider">Harga</span>
+                                <span class="text-base font-extrabold text-white">Rp ${Number(p.price).toLocaleString('id-ID')}</span>
+                            </div>
+                            ${buyButton}
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function handleSearch() {
@@ -597,20 +627,36 @@
             const product = productsData.find(p => p.id === id);
             if (!product) return;
 
+            if (!product.stock || product.stock <= 0) {
+                showToast(`Stok ${product.title} telah habis!`, "error");
+                return;
+            }
+
             const existing = cart.find(item => item.id === id);
             if (existing) {
+                if (existing.qty >= product.stock) {
+                    showToast(`Maaf, batas pembelian sesuai sisa stok (${product.stock})!`, "error");
+                    return;
+                }
                 existing.qty += 1;
             } else {
                 cart.push({ ...product, qty: 1 });
             }
 
             updateCartUI();
-            showToast(`"${product.title}" berhasil ditambahkan!`);
+            showToast(`"${product.title}" berhasil ditambahkan!`, "success");
         }
 
         function updateCartQuantity(id, change) {
             const item = cart.find(i => i.id === id);
             if (!item) return;
+
+            const product = productsData.find(p => p.id === id);
+            if (change > 0 && product && item.qty >= product.stock) {
+                showToast(`Mencapai batas stok yang tersedia (${product.stock})!`, "error");
+                return;
+            }
+
             item.qty += change;
             if (item.qty <= 0) {
                 cart = cart.filter(i => i.id !== id);
@@ -673,7 +719,7 @@
             const contact = document.getElementById('buyerContact').value.trim();
 
             if (!name || !contact) {
-                showToast("Silakan lengkapi nama dan kontak WhatsApp Anda!");
+                showToast("Silakan lengkapi nama dan kontak WhatsApp Anda!", "error");
                 return;
             }
 
@@ -704,7 +750,7 @@
 
         function openCheckout() {
             if (cart.length === 0) {
-                showToast("Keranjang Anda kosong!");
+                showToast("Keranjang Anda kosong!", "error");
                 return;
             }
             closeCartModal();
@@ -717,9 +763,21 @@
             document.getElementById('checkoutModal').classList.add('hidden');
         }
 
-        function showToast(msg) {
+        function showToast(msg, type = "success") {
             const toast = document.getElementById('toast');
+            const iconContainer = document.getElementById('toastIconContainer');
+            const icon = document.getElementById('toastIcon');
+
             document.getElementById('toastMsg').innerText = msg;
+            
+            if (type === "error") {
+                iconContainer.className = "bg-rose-500/20 text-rose-400 p-1.5 rounded-lg border border-rose-500/30";
+                icon.className = "fa-solid fa-triangle-exclamation text-base";
+            } else {
+                iconContainer.className = "bg-emerald-500/20 text-emerald-400 p-1.5 rounded-lg border border-emerald-500/30";
+                icon.className = "fa-solid fa-circle-check text-base";
+            }
+
             toast.classList.remove('translate-y-20', 'opacity-0');
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
